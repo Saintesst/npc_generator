@@ -24,7 +24,6 @@ class NPCCommands(commands.Cog):
             "marital_status": npc.marital_status,
             "occupation": npc.occupation,
             "traits": npc.traits,
-            "appearance": npc.appearance
         }
         
         backstory = await generate_backstory(npc_data)
@@ -37,7 +36,6 @@ class NPCCommands(commands.Cog):
         embed.add_field(name="Семейное положение", value=npc.marital_status, inline=True)
         embed.add_field(name="Профессия", value=npc.occupation, inline=False)
         embed.add_field(name="Черты характера", value=", ".join(npc.traits), inline=False)
-        embed.add_field(name="Внешность", value=npc.appearance, inline=False)
         embed.add_field(name="Предыстория", value=backstory, inline=False)
         
         await inter.edit_original_message(embed=embed)

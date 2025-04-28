@@ -54,4 +54,7 @@ async def npc(ctx):
 
 if __name__ == "__main__":
     bot.load_extension("npc_commands") 
+    if not Config.DISCORD_TOKEN:
+        raise ValueError("Discord token is not set in configuration")
     bot.run(Config.DISCORD_TOKEN)
+    

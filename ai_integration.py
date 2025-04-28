@@ -1,28 +1,40 @@
 import openai
-import asyncio
-from config import Config
+async def generate_backstory(npc_data):
+    from openai import OpenAI
+    client = OpenAI()  # API ключ возьмёт из переменной окружения OPENAI_API_KEY
 
-async def generate_backstory(npc_data: dict) -> str:
+    # Формируем информативный промпт
     prompt = f"""
-    Создай подробную предысторию для персонажа:
-    Имя: {npc_data['first_name']} {npc_data['last_name']}
-    Возраст: {npc_data['age']}
-    Статус: {npc_data['marital_status']}
-    Профессия: {npc_data['occupation']}
-    Черты: {', '.join(npc_data['traits'])}
-    Внешность: {npc_data['appearance']}
+    Создай подробную предысторию для RPG-персонажа. Вот его характеристики:
+    - Полное имя: {npc_data['first_name']} {npc_data['last_name']}
+    - Возраст: {npc_data['age']} лет
+    - Семейное положение: {npc_data['marital_status']}
+    - Профессия: {npc_data['occupation']}
+    - Черты характера: {', '.join(npc_data['traits'])}
+    - Внешность: {npc_data.get('appearance', 'не указана')}
     
-    Предыстория должна быть реалистичной и детализированной.
+    Предыстория должна быть:
+    - На 2-3 абзаца
+    - Учитывать все указанные характеристики
+    - Содержать уникальные детали
+    - Быть в стиле фэнтези (или другого вашего сеттинга)
     """
     
     try:
-        response = await asyncio.to_thread(
-            openai.ChatCompletion.create,
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=500,
-            api_key=Config.OPENAI_KEY
+            messages=[
+                {"role": "system", "content": "Ты опытный рассказчик, создающий живые истории для RPG-персонажей"},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.8,  # Для большей креативности
+            max_tokens=500    # Ограничение длины ответа
         )
-        return response.choices[0].message.content
+        
+        # Очистка ответа от возможных артефактов
+        backstory = response.choices[0].message.content.strip()
+        return backstory if backstory else "Не удалось сгенерировать предысторию"
+        
     except Exception as e:
-        return f"Не удалось сгенерировать предысторию: {str(e)}"
+        print(f"Ошибка при генерации предыстории: {e}")
+        return "Произошла ошибка при создании предыстории персонажа"
