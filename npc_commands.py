@@ -2,6 +2,7 @@ import disnake
 from disnake.ext import commands
 from npc_generator import NPCGenerator
 from ai_integration import generate_backstory
+from ai_integration_v2 import generate_backstory_local
 
 class NPCCommands(commands.Cog):
     def __init__(self, bot):
@@ -26,7 +27,7 @@ class NPCCommands(commands.Cog):
             "traits": npc.traits,
         }
         
-        backstory = await generate_backstory(npc_data)
+        backstory = await generate_backstory_local(npc_data)
         
         embed = disnake.Embed(
             title=f"{npc.first_name} {npc.last_name}",
