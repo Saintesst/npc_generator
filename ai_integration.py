@@ -1,9 +1,8 @@
 import openai
 async def generate_backstory(npc_data):
     from openai import OpenAI
-    client = OpenAI()  # API ключ возьмёт из переменной окружения OPENAI_API_KEY
+    client = OpenAI()
 
-    # Формируем информативный промпт
     prompt = f"""
     Создай подробную предысторию для RPG-персонажа. Вот его характеристики:
     - Полное имя: {npc_data['first_name']} {npc_data['last_name']}
@@ -27,11 +26,11 @@ async def generate_backstory(npc_data):
                 {"role": "system", "content": "Ты опытный рассказчик, создающий живые истории для RPG-персонажей"},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.8,  # Для большей креативности
-            max_tokens=500    # Ограничение длины ответа
+            temperature=0.8,  
+            max_tokens=500    
         )
         
-        # Очистка ответа от возможных артефактов
+        
         backstory = response.choices[0].message.content.strip()
         return backstory if backstory else "Не удалось сгенерировать предысторию"
         

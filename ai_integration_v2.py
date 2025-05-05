@@ -1,7 +1,7 @@
 import httpx
 
 async def generate_backstory_local(npc_data: dict) -> str:
-    """Генерирует предысторию через локальную Mistral"""
+
     prompt = f"""
     Напиши краткую предысторию для персонажа RPG. Вот его данные:
     - Имя: {npc_data['first_name']} {npc_data['last_name']}
@@ -12,7 +12,7 @@ async def generate_backstory_local(npc_data: dict) -> str:
     Требования:
     - 2-3 предложения
     - Упоминай ключевые детали из данных выше
-    - История обычного человека, который не стал известен на все королевство 
+    - История обычного, не выдающегося человека
     """
     
     async with httpx.AsyncClient() as client:
@@ -22,7 +22,7 @@ async def generate_backstory_local(npc_data: dict) -> str:
                 json={
                     "model": "mistral",
                     "prompt": prompt,
-                    "stream": False,  # Для простого ответа
+                    "stream": False, 
                     "options": {"temperature": 0.7}
                 },
                 timeout=30.0
