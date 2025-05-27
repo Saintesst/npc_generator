@@ -5,6 +5,7 @@ from pathlib import Path
 
 @dataclass
 class NPC:
+    gender: str
     first_name: str
     last_name: str
     age: int
@@ -17,6 +18,7 @@ class NPCGenerator:
     def __init__(self):
         self.data_dir = Path(__file__).parent / "data"  # Путь к папке data
         self.data = self._load_data()
+        self.gender = ["Мужской", "Женский"]
         self.first_names = self.data.get("first_names", [])
         self.last_names = self.data.get("last_names", [])
         self.traits = self.data.get("traits", [])
@@ -38,6 +40,7 @@ class NPCGenerator:
         
     def generate_npc(self) -> NPC:
         return NPC(
+            gender=random.choice(self.gender),
             first_name=random.choice(self.first_names),
             last_name=random.choice(self.last_names),
             age=random.randint(18, 80),

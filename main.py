@@ -30,6 +30,7 @@ async def npc(ctx):
     npc = bot.npc_generator.generate_npc()
     
     npc_data = {
+        "gender": npc.gender,
         "first_name": npc.first_name,
         "last_name": npc.last_name,
         "age": npc.age,
@@ -42,7 +43,7 @@ async def npc(ctx):
     backstory = await generate_backstory_local(npc_data)
     
     embed = disnake.Embed(
-        title=f"{npc.first_name} {npc.last_name}",
+        title=f"{npc.gender} {npc.first_name} {npc.last_name}",
         description=f"**Возраст:** {npc.age}\n**Семейное положение:** {npc.marital_status}",
         color=disnake.Color.blurple()
     )

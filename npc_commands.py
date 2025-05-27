@@ -19,6 +19,7 @@ class NPCCommands(commands.Cog):
         
         npc = self.generator.generate_npc()
         npc_data = {
+            "gender": npc.gender,
             "first_name": npc.first_name,
             "last_name": npc.last_name,
             "age": npc.age,
@@ -33,6 +34,7 @@ class NPCCommands(commands.Cog):
             title=f"{npc.first_name} {npc.last_name}",
             color=disnake.Color.dark_teal()
         )
+        embed.add_field(name="Пол", value=npc.gender, inline=False)
         embed.add_field(name="Возраст", value=npc.age, inline=True)
         embed.add_field(name="Семейное положение", value=npc.marital_status, inline=True)
         embed.add_field(name="Профессия", value=npc.occupation, inline=False)

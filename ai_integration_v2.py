@@ -4,6 +4,7 @@ async def generate_backstory_local(npc_data: dict) -> str:
 
     prompt = f"""
     Напиши краткую предысторию для персонажа RPG. Вот его данные:
+    - Пол: {npc_data['gender']}
     - Имя: {npc_data['first_name']} {npc_data['last_name']}
     - Возраст: {npc_data['age']}
     - Профессия: {npc_data['occupation']}
