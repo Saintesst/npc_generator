@@ -22,6 +22,8 @@ class NPCCommands(commands.Cog):
             "gender": npc.gender,
             "first_name": npc.first_name,
             "last_name": npc.last_name,
+            "race": npc.race,
+            "alignmemt": npc.alignment,
             "age": npc.age,
             "marital_status": npc.marital_status,
             "occupation": npc.occupation,
@@ -35,7 +37,9 @@ class NPCCommands(commands.Cog):
             color=disnake.Color.dark_teal()
         )
         embed.add_field(name="Пол", value=npc.gender, inline=False)
+        embed.add_field(name="Раса", value=npc.race, inline=False)
         embed.add_field(name="Возраст", value=npc.age, inline=True)
+        embed.add_field(name="Мировозрение", value=npc.alignment, inline=False)
         embed.add_field(name="Семейное положение", value=npc.marital_status, inline=True)
         embed.add_field(name="Профессия", value=npc.occupation, inline=False)
         embed.add_field(name="Черты характера", value=", ".join(npc.traits), inline=False)
