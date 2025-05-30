@@ -21,14 +21,10 @@ class NPCGenerator:
         self.data_dir = Path(__file__).parent / "data"  # Путь к папке data
         self.data = self._load_data()
         self.gender = ["Мужской", "Женский"]
-        if self.gender == "Женский":
-            self.first_names = self.data.get("first_names_female", [])    
-        else:
-            self.first_names = self.data.get("first_names_male", [])
-        if self.gender == "Женский":
-            self.last_names = self.data.get("last_names_female", [])
-        else:
-            self.last_names = self.data.get("last_names_male", [])
+        self.first_name_male = self.data.get("first_names_male", [])
+        self.first_name_female = self.data.get("first_names_female", [])
+        self.last_name_male = self.data.get("last_names_male", [])
+        self.last_name_female = self.data.get("last_names_female", [])
         self.race = self.data.get("humanoid_races", [])
         self.alignment = self.data.get("alignment", [])
         self.traits = self.data.get("traits", [])
@@ -49,11 +45,25 @@ class NPCGenerator:
 
         
     def generate_npc(self) -> NPC:
+        
+        gender = random.choice(self.gender)  
+    
+        first_names = (
+            self.data.get("first_names_female", []) 
+            if gender == "Женский" 
+            else self.data.get("first_names_male", [])
+        )
+        last_names = (
+            self.data.get("last_names_female", []) 
+            if gender == "Женский" 
+            else self.data.get("last_names_male", [])
+        )
+    
         return NPC(
-            gender=random.choice(self.gender),
-            first_name=random.choice(self.first_names),
-            last_name=random.choice(self.last_names),
             race=random.choice(self.race),
+            gender=gender, 
+            first_name=random.choice(first_names),
+            last_name=random.choice(last_names),
             alignment=random.choice(self.alignment),
             age=random.randint(18, 80),
             marital_status=random.choice(self.marital_status),
